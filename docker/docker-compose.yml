@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  nuxt-app:
+    build: .
+    ports:
+      - "80:3000"
+      - "24678:24678"
+    volumes:
+      - ../:/app
+    command: >
+      sh -c "
+        if [ ! -d node_modules ]; then
+          npx nuxi init . --package-manager npm --force --no-telemetry --git-init=false
+        fi;
+        npm run dev -- --host
+      "
