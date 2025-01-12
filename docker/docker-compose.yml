@@ -13,6 +13,8 @@ services:
           npx nuxi init . --package-manager npm --force --no-telemetry --git-init=false
           npx nuxi module add hub
           npm install --save-dev wrangler
+          npm install firebase
+          npx nuxi@latest module add vuefire
         fi;
         npm run dev -- --host
       "
