@@ -3,10 +3,14 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   modules: ["@nuxthub/core", "nuxt-vuefire"],
+  // Пока отключаем, чтобы не было ошибок при деплое
+  ssr: false,
   vuefire: {
     // Будем пользовать авторизацией
     auth: {
       enabled: true,
+      // Пока не будем использовать SSR
+      sessionCookie: false,
     },
     // Подключение для CSR авторизации
     config: {
