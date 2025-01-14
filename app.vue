@@ -1,31 +1,26 @@
 <template>
   <div>
     <h1>Check console.log() for test.</h1>
-    <button @click="loginWithGoogle">Login with Google</button>
     <br />
-    <button @click="logoutWithGoogle">Logout with Google</button>
+    <button v-if="user?.displayName" @click="logoutAuth">Logout</button>
+  </div>
+  <hr />
+  <div>
+    <nuxtPage />
   </div>
 </template>
 
 <script setup lang="ts">
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
 const user = useCurrentUser();
 
 // @TODO удалить
 console.log(user);
 
-// @TODO перенести в мидлваре
+// @TODO перенести в хелпер
 const auth = useFirebaseAuth();
 
-const loginWithGoogle = () => {
-  // auth может быть null, что нам не подходит
-  if (auth) {
-    signInWithPopup(auth, new GoogleAuthProvider());
-  }
-};
-
-const logoutWithGoogle = () => {
+const logoutAuth = () => {
   auth?.signOut();
+  // Альтернатива signOut(auth) из "firebase/auth"
 };
 </script>
