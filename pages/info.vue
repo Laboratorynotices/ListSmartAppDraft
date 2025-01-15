@@ -5,7 +5,10 @@
 </template>
 
 <script setup lang="ts">
-// @TODO закрыть доступ неавторизованным пользователям
+// Доступ только авторизованным пользователям
+definePageMeta({
+  middleware: ["auth"],
+});
 
 const user = useCurrentUser();
 </script>
