@@ -18,9 +18,11 @@ console.log(user);
 
 // @TODO перенести в хелпер
 const auth = useFirebaseAuth();
+const router = useRouter();
 
 const logoutAuth = () => {
   auth?.signOut();
   // Альтернатива signOut(auth) из "firebase/auth"
+  router.push("/");
 };
 </script>
