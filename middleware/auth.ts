@@ -2,7 +2,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const user = await getCurrentUser();
 
   // Если пользователь авторизован и открывает страницу авторизации, то перенаправляем на главную страницу
-  if (user && to.path === "/login") {
+  if (user && to.name === "login") {
     return navigateTo("/");
   }
 
