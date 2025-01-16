@@ -1,5 +1,5 @@
 <template>
-  <h1>Hallo</h1>
+  <ShoppingList />
 </template>
 
 <script setup lang="ts">
