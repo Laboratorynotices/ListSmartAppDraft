@@ -15,6 +15,7 @@ services:
           npm install --save-dev wrangler
           npm install firebase
           npx nuxi@latest module add vuefire
+          npm i pinia @pinia/nuxt
         fi;
         npm run dev -- --host
       "
