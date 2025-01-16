@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  modules: ["@nuxthub/core", "nuxt-vuefire"],
+  modules: ["@nuxthub/core", "nuxt-vuefire", "@pinia/nuxt"],
   // Пока отключаем, чтобы не было ошибок при деплое
   ssr: false,
   vuefire: {
