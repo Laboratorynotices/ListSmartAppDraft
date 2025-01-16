@@ -2,7 +2,7 @@
   <div>
     <h1>Check console.log() for test.</h1>
     <br />
-    <button v-if="user?.displayName" @click="logoutAuth">Logout</button>
+    <button v-if="user" @click="logoutAuth">Logout</button>
   </div>
   <hr />
   <div>
