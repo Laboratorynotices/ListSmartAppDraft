@@ -9,6 +9,14 @@ import { useShoppingStore } from "@/stores/useShoppingStore";
 // Получаем доступ к хранилищу
 const shoppingStore = useShoppingStore();
 
+// Добавляем товар
+shoppingStore.addItem({
+  name: "Молоко",
+  quantity: 1,
+  completed: false,
+  category: "Продукты",
+});
+
 // Проверим содержимое
-console.log(shoppingStore);
+console.log(shoppingStore.items);
 </script>

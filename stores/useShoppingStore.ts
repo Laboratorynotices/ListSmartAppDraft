@@ -39,7 +39,16 @@ export const useShoppingStore = defineStore("shopping", {
 
   // Actions - методы для изменения состояния
   actions: {
-    // @TODO Добавление нового элемента в список
+    // @TODO Добавление нового элемента в
+    addItem(item: Omit<ShoppingItem, "id" | "createdAt">) {
+      const newItem: ShoppingItem = {
+        // @TODO Временно, потом получим id от Firebase
+        id: new Date().toISOString(),
+        createdAt: new Date(),
+        ...item,
+      };
+      this.items.push(newItem);
+    },
     // @TODO Удаление элемента из списка
     // @TODO Обновление существующего элемента
     // @TODO Переключение статуса выполнения
