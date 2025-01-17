@@ -1,6 +1,7 @@
 <template>
   <div class="shopping-list">
     <!-- Форма добавления нового элемента -->
+    <ShoppingItemForm />
 
     <!-- Фильтры и статистика -->
 
