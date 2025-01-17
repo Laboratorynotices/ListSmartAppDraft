@@ -33,7 +33,11 @@ export const useShoppingStore = defineStore("shopping", {
   getters: {
     // @TODO Получаем количество элементов в списке
     // @TODO Получаем только невыполненные элементы
-    // @TODO Получаем элементы по категории
+    // Получаем элементы по категории
+    getItemsByCategory: (state) => {
+      return (category: string) =>
+        state.items.filter((item) => item.category === category);
+    },
     // @TODO Проверяем, есть ли незавершённые элементы
   },
 
