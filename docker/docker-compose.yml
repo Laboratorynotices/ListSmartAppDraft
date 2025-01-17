@@ -16,6 +16,7 @@ services:
           npm install firebase
           npx nuxi@latest module add vuefire
           npm i pinia @pinia/nuxt
+          npx nuxi@latest module add tailwindcss
         fi;
         npm run dev -- --host
       "
