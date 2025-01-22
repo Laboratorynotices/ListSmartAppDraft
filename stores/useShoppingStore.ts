@@ -4,6 +4,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  updateDoc,
   type DocumentData,
 } from "firebase/firestore";
 import { useFirestore } from "vuefire";
@@ -79,6 +80,32 @@ const storeHelpers = {
       console.error(`Ошибка при удалении ${COLLECTION_NAME}:`, e);
     }
   },
+  /**
+   * Обновление элемента в Firebase.
+   * @param store контекст хранилища
+   * @param id идентификатор элемента для обновления
+   * @param item данные для обновления
+   * @returns Promise<void>
+   */
+  async updateDocInFirebase(
+    store: ReturnType<typeof useShoppingStore>,
+    id: string,
+    item: Partial<Omit<ShoppingItem, "id" | "createdAt">>
+  ): Promise<void> {
+    // Получаем доступ к базе данных через VueFire
+    const db = useFirestore();
+
+    try {
+      // Получаем указатель на элемент, который нужно обновить
+      const docRef = doc(db, COLLECTION_NAME, id);
+
+      // Обновляем элемент
+      await updateDoc(docRef, item);
+    } catch (e) {
+      store.error = "Ошибка при обновлении элемента";
+      console.error(`Ошибка при обновлении ${COLLECTION_NAME}:`, e);
+    }
+  },
 };
 
 // Создаём store с использованием Composition API стиля
@@ -139,7 +166,24 @@ export const useShoppingStore = defineStore("shopping", {
       }
     },
     // @TODO Обновление существующего элемента
-    // @TODO Переключение статуса выполнения
+    // Переключение статуса выполнения
+    toggleComplete(itemId: string) {
+      // Используем метод findIndex для поиска индекса элемента в массив
+      const item = this.items.find((item) => item.id === itemId);
+      if (item) {
+        // Если элемент найден, переключаем его статус
+        item.completed = !item.completed;
+
+        // Сохраняем изменения в Firebase
+        storeHelpers.updateDocInFirebase(this, itemId, {
+          completed: item.completed,
+        });
+      } else {
+        // Если элемент не найден, выводим сообщение об ошибке
+        console.log("Элемент не найден");
+        this.error = "Элемент не найден";
+      }
+    },
     // @TODO Добавление новой категории
     // @TODO Загрузка данных из Firebase
     // Загрузка данных из Firebase

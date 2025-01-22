@@ -17,6 +17,12 @@
         class="flex items-center p-3 border rounded hover:bg-gray-50"
         :class="{ 'bg-gray-100': item.completed }"
       >
+        <input
+          type="checkbox"
+          :checked="item.completed"
+          @change="store.toggleComplete(item.id)"
+          class="mr-3"
+        />
         <div class="flex-grow">
           <div :class="{ 'line-through text-gray-500': item.completed }">
             {{ item.name }}
