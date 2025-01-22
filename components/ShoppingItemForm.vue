@@ -52,7 +52,7 @@ const newItem = ref({
 });
 
 // Метод добавления нового элемента
-const addNewItem = () => {
+const addNewItem = async () => {
   store.addItem({
     name: newItem.value.name,
     quantity: newItem.value.quantity,
