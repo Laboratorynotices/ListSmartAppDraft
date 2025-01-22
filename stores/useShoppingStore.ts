@@ -1,6 +1,8 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   type DocumentData,
 } from "firebase/firestore";
@@ -27,7 +29,7 @@ interface ShoppingState {
 }
 
 // Имя коллекции в Firebase
-const COLLECTION_NAME = "shoppingItems";
+const COLLECTION_NAME: string = "shoppingItems" as const;
 
 /**
  * Вспомогательные (приватные) методы для работы с Firebase
@@ -50,8 +52,31 @@ const storeHelpers = {
         item
       );
     } catch (e) {
-      console.error("Ошибка при добавлении shoppingItem: ", e);
+      console.error(`Ошибка при добавлении ${COLLECTION_NAME}:`, e);
       return { id: undefined };
+    }
+  },
+  /**
+   * Удаление элемента из Firebase.
+   * @param store контекст хранилища
+   * @param id идентификатор элемента для удаления
+   */
+  async deleteDocFromFirebase(
+    store: ReturnType<typeof useShoppingStore>,
+    id: string
+  ): Promise<void> {
+    // Получаем доступ к базе данных через VueFire
+    const db = useFirestore();
+
+    try {
+      // Получаем указатель на элемент, который нужно удалить
+      const docRef = doc(db, COLLECTION_NAME, id);
+
+      // Удаляем элемент
+      await deleteDoc(docRef);
+    } catch (e) {
+      store.error = "Ошибка при удалении элемента";
+      console.error(`Ошибка при удалении ${COLLECTION_NAME}:`, e);
     }
   },
 };
@@ -96,7 +121,23 @@ export const useShoppingStore = defineStore("shopping", {
       // Добавляем элемент в список, добавляя ему ID
       this.items.push({ id: docRef.id, ...newItem });
     },
-    // @TODO Удаление элемента из списка
+    // Удаление элемента из списка
+    removeItem(itemId: string) {
+      // Используем метод findIndex для поиска индекса элемента в массиве по его id
+      const index = this.items.findIndex((item) => item.id === itemId);
+      if (index > -1) {
+        // Если элемент найден (индекс больше -1),
+        // используем метод splice для удаления одного элемента начиная с найденного индекса
+        this.items.splice(index, 1);
+
+        // Удаляем элемент из базы данных
+        storeHelpers.deleteDocFromFirebase(this, itemId);
+      } else {
+        // Если элемент не найден, выводим сообщение об ошибке
+        console.log("Элемент не найден");
+        this.error = "Элемент не найден";
+      }
+    },
     // @TODO Обновление существующего элемента
     // @TODO Переключение статуса выполнения
     // @TODO Добавление новой категории

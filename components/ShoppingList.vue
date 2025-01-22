@@ -25,7 +25,12 @@
             {{ item.category || "Без категории" }} • {{ item.quantity }} шт.
           </div>
         </div>
-        Удалить
+        <button
+          @click="store.removeItem(item.id)"
+          class="px-2 text-red-500 hover:text-red-700"
+        >
+          Удалить
+        </button>
       </div>
     </div>
 
