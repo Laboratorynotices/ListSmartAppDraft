@@ -43,6 +43,9 @@ import { useShoppingStore } from "@/stores/useShoppingStore";
 // Инициализируем store
 const store = useShoppingStore();
 
+// Загружаем сохранённые данные
+await store.loadFromFirebase();
+
 // Состояние для нового элемента
 const newItem = ref({
   name: "",
@@ -53,7 +56,7 @@ const newItem = ref({
 
 // Метод добавления нового элемента
 const addNewItem = async () => {
-  store.addItem({
+  await store.addItem({
     name: newItem.value.name,
     quantity: newItem.value.quantity,
     category: newItem.value.category,

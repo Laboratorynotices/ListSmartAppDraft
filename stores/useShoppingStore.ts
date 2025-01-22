@@ -1,4 +1,9 @@
-import { addDoc, collection, type DocumentData } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  type DocumentData,
+} from "firebase/firestore";
 import { useFirestore } from "vuefire";
 import { defineStore } from "pinia";
 
@@ -32,8 +37,6 @@ const storeHelpers = {
   async addDocToFirebase(
     item: Omit<ShoppingItem, "id">
   ): Promise<DocumentData> {
-    // Используем $db для доступа к базе данных
-    //const { $db } = useNuxtApp();
     // Получаем доступ к базе данных через VueFire
     const db = useFirestore();
 
@@ -98,6 +101,24 @@ export const useShoppingStore = defineStore("shopping", {
     // @TODO Переключение статуса выполнения
     // @TODO Добавление новой категории
     // @TODO Загрузка данных из Firebase
+    // Загрузка данных из Firebase
+    async loadFromFirebase() {
+      // Получаем доступ к базе данных через VueFire
+      const db = useFirestore();
+
+      try {
+        // Делаем из полученных данных массив и приводим к формату списка ShoppingItem
+        this.items = (await getDocs(collection(db, COLLECTION_NAME))).docs.map(
+          (doc) => ({
+            ...(doc.data() as ShoppingItem),
+            id: doc.id,
+          })
+        );
+      } catch (e) {
+        this.error = "Ошибка при загрузке данных";
+        console.error("Ошибка при загрузке из Firebase:", e);
+      }
+    },
     // @TODO Очистка списка
   },
 });
