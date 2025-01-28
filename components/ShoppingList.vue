@@ -49,6 +49,16 @@
         currentCategory ? "В этой категории нет покупок" : "Список покупок пуст"
       }}
     </div>
+
+    <!-- Кнопка очистки завершённых -->
+    <div class="mt-4 text-right">
+      <button
+        @click="store.clearCompleted()"
+        class="text-sm text-gray-600 hover:text-gray-800"
+      >
+        Очистить завершённые
+      </button>
+    </div>
   </div>
 </template>
 

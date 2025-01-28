@@ -204,6 +204,19 @@ export const useShoppingStore = defineStore("shopping", {
         console.error("Ошибка при загрузке из Firebase:", e);
       }
     },
-    // @TODO Очистка списка
+    // Очистка списка
+    clearCompleted() {
+      // Отдельно сохраняем элементы, которые надо удалить
+      const itemsToDelete: ShoppingItem[] = this.items.filter(
+        (item) => item.completed
+      ); // Удаляем все элементы, которые были отмечены как завершенные
+
+      this.items = this.items.filter((item) => !item.completed); // Проходимся по всем элементам, которые нужно удалить,...
+
+      itemsToDelete.forEach((item) => {
+        // ... и удаляем их из базы данных
+        storeHelpers.deleteDocFromFirebase(this, item.id as string);
+      });
+    },
   },
 });
