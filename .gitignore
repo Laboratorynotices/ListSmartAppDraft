@@ -13,6 +13,9 @@ node_modules
 logs
 *.log
 
+# Google API secret key
+service-account.json
+
 # Misc
 .DS_Store
 .fleet

@@ -8,14 +8,14 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
   ],
-  // Пока отключаем, чтобы не было ошибок при деплое
-  ssr: false,
+  // Используем SSR
+  ssr: true,
   vuefire: {
     // Будем пользовать авторизацией
     auth: {
       enabled: true,
-      // Пока не будем использовать SSR
-      sessionCookie: false,
+      // Для SSR будем хранить сессию в куках
+      sessionCookie: true,
     },
     // Подключение для CSR авторизации
     config: {
