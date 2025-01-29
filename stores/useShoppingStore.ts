@@ -120,14 +120,23 @@ export const useShoppingStore = defineStore("shopping", {
 
   // Геттеры - вычисляемые свойства store
   getters: {
-    // @TODO Получаем количество элементов в списке
-    // @TODO Получаем только невыполненные элементы
+    // Получаем количество элементов в списке
+    totalItems: (state) => state.items.length,
+
+    // Получаем только невыполненные элементы
+    activeItems: (state) => state.items.filter((item) => !item.completed),
+
     // Получаем элементы по категории
     getItemsByCategory: (state) => {
       return (category: string) =>
         state.items.filter((item) => item.category === category);
     },
-    // @TODO Проверяем, есть ли незавершённые элементы
+
+    // Проверяем, есть ли незавершённые элементы
+    hasActiveItems: (state) => state.items.some((item) => !item.completed),
+
+    // Проверяем, есть ли завершённые элементы
+    hasCompletedItems: (state) => state.items.some((item) => item.completed),
   },
 
   // Actions - методы для изменения состояния
@@ -185,7 +194,6 @@ export const useShoppingStore = defineStore("shopping", {
       }
     },
     // @TODO Добавление новой категории
-    // @TODO Загрузка данных из Firebase
     // Загрузка данных из Firebase
     async loadFromFirebase() {
       // Получаем доступ к базе данных через VueFire

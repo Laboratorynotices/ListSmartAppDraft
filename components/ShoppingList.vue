@@ -5,7 +5,10 @@
 
     <!-- Фильтры и статистика -->
     <div class="flex justify-between items-center mb-4">
-      <!-- @TODO статистика -->
+      <!-- статистика -->
+      <div class="text-sm text-gray-600">
+        Всего: {{ store.totalItems }}, Активных: {{ store.activeItems.length }}
+      </div>
       <CategoryFilter ref="categoryFilter" />
     </div>
 
@@ -51,9 +54,9 @@
     </div>
 
     <!-- Кнопка очистки завершённых -->
-    <div class="mt-4 text-right">
+    <div v-if="store.hasCompletedItems" class="mt-4 text-right">
       <button
-        @click="store.clearCompleted()"
+        @click="store.clearCompleted"
         class="text-sm text-gray-600 hover:text-gray-800"
       >
         Очистить завершённые
